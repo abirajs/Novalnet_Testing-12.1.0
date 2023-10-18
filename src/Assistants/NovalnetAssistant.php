@@ -624,8 +624,8 @@ class NovalnetAssistant extends WizardProvider
                 $nnInstalmentPayment .  'instamentCycles' =>
                 [
                        'type' => 'checkboxGroup',
-                       'defaultValue' => [2],
                        'options' => [
+                            'required'  => true,
                            'name' => 'NovalnetAssistant.novalnetinstamentCyclesLabel',
                            'checkboxValues' =>
                            [
