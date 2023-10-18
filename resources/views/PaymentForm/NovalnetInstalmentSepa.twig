@@ -105,13 +105,12 @@
                                         <option name="nn_cycle_key"  id="nn_cycle_key" value="{{key}}-{{value}}" cycle-amount = "{{value}}" data-amount="{{value}} {{currency}}" data-cycle-amount="{{value}}">{{key}} x {{value}} {{currency}} {{trans("Novalnet::Customize.template_per_month_text")}}</option>   
                                     {% endfor %}
                             </select>
-                            <label for="nn_instalment_cycle">{{languageTexts.jtl_novalnet_instalment_cycles}}</label>
                         </div>                                   
                     </div>
                 </div>
 
 				<br>
-                <div class="container">           
+                <div class="container" style="overflow-y:auto;max-height: 300px;">           
                     <table class="table table-striped nn_instalment_table">
                    		{% if instalmentCyclesAmount != '' %}
                         <thead style="text-align:center">
