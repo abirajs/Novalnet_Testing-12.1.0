@@ -110,9 +110,18 @@
                     </div>
                 </div>
 
+				<br>
                 <div class="container">           
                     <table class="table table-striped nn_instalment_table">
-                        <tbody id="nn_instalment_cycle_information">                                
+                   		{% if instalmentCyclesAmount != '' %}
+                        <thead style="text-align:center">
+                            <tr>
+                                <th>{{trans("Novalnet::Customize.template_cycle")}}</th>
+                                <th>{{trans("Novalnet::Customize.template_cycle_amount")}}</th>
+                            </tr>
+                        </thead>
+                        {% endif %}
+                        <tbody id="nn_instalment_cycle_information" style="text-align:center">                                
                         </tbody>
                     </table>
                 </div>                    
