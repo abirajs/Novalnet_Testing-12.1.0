@@ -77,14 +77,22 @@
                                         <option  value="{{key}}-{{value}}" cycle-amount = "{{value}}" data-amount="{{value}} {{currency}}" data-cycle-amount="{{value}}">{{key}} x {{value}} {{currency}} {{trans("Novalnet::Customize.template_per_month_text")}}</option> 
                                     {% endfor %}
                             </select>
-                            <label for="nn_instalment_cycle">{{languageTexts.jtl_novalnet_instalment_cycles}}</label>
                         </div>                                   
                     </div>
                 </div>
-
+                
+				<br>
                 <div class="container">           
                     <table class="table table-striped nn_instalment_table">
-                        <tbody id="nn_instalment_cycle_information">                                
+						{% if instalmentCyclesAmount != '' %}
+                        <thead style="text-align:center">
+                            <tr>
+                                <th>{{trans("Novalnet::Customize.template_cycle")}}</th>
+                                <th>{{trans("Novalnet::Customize.template_cycle_amount")}}</th>
+                            </tr>
+                        </thead>
+                        {% endif %}
+                        <tbody id="nn_instalment_cycle_information" style="text-align:center">                                
                         </tbody>
                     </table>
                 </div>                    
@@ -94,5 +102,5 @@
     <div class="modal-footer">
         <button type="submit" class="btn btn-primary" id="novalnet_form_btn">{{trans("Novalnet::Customize.template_submit_button_text")}} <i class="fa fa-check"></i></button>
     </div>
-</form> 
+</form>
 
