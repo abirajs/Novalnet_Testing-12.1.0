@@ -1,4 +1,29 @@
+
+jQuery('#nn_instalment_cycle').on('change',function() {
+var selectedOption = this.options[this.selectedIndex];
+var selectedValue = selectedOption.value;
+var parts = selectedValue.split("-"); // Split the value into key and value
+
+var key = parts[0];
+var value = parts[1];
+
+var cycleInformation = '';
+for (instalmentCycle = 1; instalmentCycle <= key; instalmentCycle++) {
+	if(instalmentCycle != key)
+	{
+		cycleInformation += '<tr><td>' + instalmentCycle + '</td><td>'+jQuery(this).find(':selected').attr('data-amount') +'</td></tr>';
+	} else {
+		var lastCycleAmount = (jQuery('#nn_net_amount').val() - (jQuery(this).find(':selected').attr('data-cycle-amount') * (key - 1)));
+	var roundedValue = lastCycleAmount;
+	var formatLastCycleAmount = roundedValue.toFixed(2);
+		cycleInformation += '<tr><td>' + instalmentCycle + '</td><td>'+ formatLastCycleAmount + ' '+ jQuery('#nn_order_currency').val()+'</td></tr>';
+	}
+}
+jQuery('#nn_instalment_cycle_information').html(cycleInformation);
+}).change();
+    
 jQuery(document).ready( function() {
+	if(jQuery("#nn_instalment_date").val() != '') { 
     var current_date = new Date();
     var max_year = current_date.getFullYear() - 18;
     var min_year = current_date.getFullYear() - 91;
@@ -147,44 +172,7 @@ jQuery(document).ready( function() {
         }
         return true;
     }
+}
 
-    function formatMoney(amount, decimalCount = 2, decimal = ",", thousands = ".") {
-      try {
-        decimalCount = Math.abs(decimalCount);
-        decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
-        const negativeSign = amount < 0 ? "-" : "";
-        let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
-        let j = (i.length > 3) ? i.length % 3 : 0;
-        return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "jQuery1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
-      } catch (e) {
-        console.log(e)
-      }
-    }
-
-
-
-    jQuery('#nn_instalment_cycle').on('change',function() {
-    var selectedOption = this.options[this.selectedIndex];
-    var selectedValue = selectedOption.value;
-    var parts = selectedValue.split("-"); // Split the value into key and value
-
-    var key = parts[0];
-    var value = parts[1];
-
-    var cycleInformation = '';
-    for (instalmentCycle = 1; instalmentCycle <= key; instalmentCycle++) {
-        if(instalmentCycle != key)
-        {
-            cycleInformation += '<tr><td>' + instalmentCycle + '</td><td>'+jQuery(this).find(':selected').attr('data-amount') +'</td></tr>';
-        } else {
-            var lastCycleAmount = (jQuery('#nn_net_amount').val() - (jQuery(this).find(':selected').attr('data-cycle-amount') * (key - 1)));
-            cycleInformation += '<tr><td>' + instalmentCycle + '</td><td>'+ formatMoney(lastCycleAmount) + ' '+ jQuery('#nn_order_currency').val()+'</td></tr>';
-        }
-    }
-    jQuery('#nn_instalment_cycle_information').html(cycleInformation);
-    }).change();
 
 });
-
-
-
