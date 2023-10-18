@@ -23,7 +23,6 @@ jQuery('#nn_instalment_cycle_information').html(cycleInformation);
 }).change();
     
 jQuery(document).ready( function() {
-	if(jQuery("#nn_instalment_date").val() != '') { 
     var current_date = new Date();
     var max_year = current_date.getFullYear() - 18;
     var min_year = current_date.getFullYear() - 91;
@@ -172,7 +171,7 @@ jQuery(document).ready( function() {
         }
         return true;
     }
-}
+
 
 
 });
