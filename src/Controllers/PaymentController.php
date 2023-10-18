@@ -197,9 +197,9 @@ class PaymentController extends Controller
             $paymentRequestData['paymentRequestData']['customer']['birth_date'] = sprintf('%4d-%02d-%02d', $paymentRequestPostData['nn_guarantee_year'], $paymentRequestPostData['nn_guarantee_month'], $paymentRequestPostData['nn_guarantee_date']);
         }
         // Setting up the cycle and birht date for instalment payments
-        if(in_array($paymentRequestPostData['nn_payment_key'], ['NOVALNET_INSTALMENT_INVOICE', 'NOVALNET_INSTALMENT_SEPA'])) {
+        if(in_array($paymentRequestPostData['nn_payment_key'], ['NOVALNET_INSTALMENT_INVOICE', 'NOVALNET_INSTALMENT_SEPA']) ) {
             $paymentRequestData['paymentRequestData']['instalment']['cycles'] = $key;
-            if(!empty($paymentRequestPostData['nn_show_instalment_dob'])) {
+            if(!empty($paymentRequestPostData['nn_show_dob'])) {
 				$paymentRequestData['paymentRequestData']['customer']['birth_date'] = sprintf('%4d-%02d-%02d', $paymentRequestPostData['nn_instalment_year'], $paymentRequestPostData['nn_instalment_month'], $paymentRequestPostData['nn_instalment_date']);
 			}
         }
