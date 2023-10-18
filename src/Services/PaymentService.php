@@ -999,12 +999,11 @@ class PaymentService
             $transactionComments .= PHP_EOL . $this->paymentHelper->getTranslatedText('test_order');
         }
         // Display the text if the transaction was made with Guaranteed payments
-        if(in_array($transactionData['paymentName'], ['novalnet_guaranteed_invoice', 'novalnet_guaranteed_sepa']) || in_array($transactionData['payment_id'], ['40','41'])) {
-            $transactionComments .= PHP_EOL . $this->paymentHelper->getTranslatedText('guarantee_text');
-            if($transactionData['paymentName'] == 'novalnet_guaranteed_invoice' && $transactionData['tx_status'] == 'PENDING') {
-                $transactionComments .= PHP_EOL . $this->paymentHelper->getTranslatedText('guarantee_invoice_pending_payment_text');
-            } elseif($transactionData['paymentName'] == 'novalnet_guaranteed_sepa' && $transactionData['tx_status'] == 'PENDING') {
-                $transactionComments .= PHP_EOL . $this->paymentHelper->getTranslatedText('guarantee_sepa_pending_payment_text');
+        if(in_array($transactionData['paymentName'], ['novalnet_guaranteed_invoice', 'novalnet_guaranteed_sepa', 'novalnet_instalment_invoice', 'novalnet_instalment_sepa']) || in_array($transactionData['payment_id'], ['40','41'])) {
+            if(in_array($transactionData['paymentName'], ['novalnet_guaranteed_invoice', 'novalnet_instalment_invoice']) && $transactionData['tx_status'] == 'PENDING') {
+                $transactionComments .= PHP_EOL . $this->paymentHelper->getTranslatedText('invoice_pending_payment_text');
+            } elseif(in_array($transactionData['paymentName'], ['novalnet_guaranteed_sepa', 'novalnet_instalment_sepa']) && $transactionData['tx_status'] == 'PENDING') {
+                $transactionComments .= PHP_EOL . $this->paymentHelper->getTranslatedText('sepa_pending_payment_text');
             }
         }
         // Form the bank details for invoice payments
