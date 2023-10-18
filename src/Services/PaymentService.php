@@ -615,7 +615,7 @@ class PaymentService
         if(empty($paymentResponseData['payment_method'])) {
             $paymentResponseData['payment_method'] = strtolower($this->paymentHelper->getPaymentKey($paymentResponseData['transaction']['payment_type']));
         }
-        $additionalInfo = $this->getAdditionalPaymentInfo($paymentResponseData);
+        $additionalInfo = $this->getmentInfo($paymentResponseData);
         $orderTotalAmount = 0;
         // Set the order total amount for Refund and Credit followups
         if(!empty($refundOrderTotalAmount) || !empty($creditOrderTotalAmount)) {
@@ -655,7 +655,7 @@ class PaymentService
         if($paymentResponseData['result']['status'] == 'SUCCESS') {
             $dueDate = !empty($paymentResponseData['transaction']['due_date']) ? $paymentResponseData['transaction']['due_date'] : '';
             // Add the Bank details for the invoice payments
-            if(in_array($paymentResponseData['payment_method'], ['novalnet_invoice', 'novalnet_guaranteed_invoice', 'novalnet_prepayment', 'novalnet_instalment_invoice'])) {
+            if(in_array($paymentResponseData['payment_method'], ['novalnet_invoice', 'novalnet_guaranteed_invoice', 'novalnet_prepayment', 'novalnet_instalment_invoice','novalnet_instalment_sepa'])) {
                 if(empty($paymentResponseData['transaction']['bank_details'])) {
                     $this->getSavedPaymentDetails($paymentResponseData);
                 }
@@ -674,13 +674,6 @@ class PaymentService
                 $additionalInfo['cycles_executed']        = $paymentResponseData['instalment']['cycles_executed'];
                 $additionalInfo['cycle_amount']           = $paymentResponseData['instalment']['cycle_amount'];
             }
-	    if(in_array($paymentResponseData['payment_method'], ['novalnet_instalment_invoice', 'novalnet_instalment_sepa'])) {
-	       $this->getSavedPaymentDetails($paymentResponseData);
-		$additionalInfo['pending_cycles']         = $paymentResponseData['instalment']['pending_cycles'];
-                $additionalInfo['next_cycle_date']        = $paymentResponseData['instalment']['next_cycle_date'];
-                $additionalInfo['cycles_executed']        = $paymentResponseData['instalment']['cycles_executed'];
-                $additionalInfo['cycle_amount']           = $paymentResponseData['instalment']['cycle_amount'];    
-	     }
             // Add the store details for the cashpayment
             if($paymentResponseData['payment_method'] == 'novalnet_cashpayment') {
                 if(empty($paymentResponseData['transaction']['nearest_stores'])) {
