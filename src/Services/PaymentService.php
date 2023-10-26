@@ -288,6 +288,17 @@ class PaymentService
             'system_url'        => $this->webstoreHelper->getCurrentWebstoreConfiguration()->domainSsl,
             'system_ip'         => $_SERVER['SERVER_ADDR']
         ];
+	// Send due date to the Novalnet server if it configured
+        if(in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT', 'NOVALNET_CASHPAYMENT', 'NOVALNET_SEPA'])) {
+            $dueDate = $this->settingsService->getPaymentSettingsValue('due_date', $paymentKeyLower);
+            if(is_numeric($dueDate)) {
+		if($paymentKey == 'NOVALNET_SEPA' && is_numeric($dueDate) && $dueDate > 1 && $dueDate < 15) {
+                $paymentRequestData['transaction']['due_date'] = $this->paymentHelper->dateFormatter($dueDate);
+		} else {
+                $paymentRequestData['transaction']['due_date'] = $this->paymentHelper->dateFormatter($dueDate);
+		}
+            }
+        }
         // Build the custom parameters
         $paymentRequestData['custom'] = ['lang'  => strtoupper($this->sessionStorage->getLocaleSettings()->language)];
         // Build additional specific payment method request parameters
@@ -348,17 +359,6 @@ class PaymentService
         }
         // Send the payment type to Novalnet server
         $paymentRequestData['transaction']['payment_type'] = $this->getPaymentType($paymentKey);
-        // Send due date to the Novalnet server if it configured
-        if(in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT', 'NOVALNETS_CASHPAYMENT', 'NOVALNET_SEPA'])) {
-            $dueDate = $this->settingsService->getPaymentSettingsValue('due_date', strtolower($paymentKey));
-            if(is_numeric($dueDate)) {
-				if($paymentKey == 'NOVALNET_SEPA' && is_numeric($dueDate) && $dueDate > 1 && $dueDate < 15) {
-                $paymentRequestData['transaction']['due_date'] = $this->paymentHelper->dateFormatter($dueDate);
-				} else {
-                $paymentRequestData['transaction']['due_date'] = $this->paymentHelper->dateFormatter($dueDate);
-				}
-            }
-        }
         // Send enforce cc value to Novalnet server
         if($paymentKey == 'NOVALNET_CC' && $this->settingsService->getPaymentSettingsValue('enforce', $paymentKey) == true) {
             $paymentRequestData['transaction']['payment_data']['enforce_3d'] = 1;
