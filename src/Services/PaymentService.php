@@ -1375,14 +1375,13 @@ class PaymentService
             $paymentRequestData['instalment']['tid'] = $transactionData['tid'];
             $paymentRequestData['instalment']['cancel_type'] = $transactionData['cancel_type'];
             $paymentRequestData['custom']['lang'] = strtoupper($transactionData['lang']);
-	    $paymentRequestData['custom']['shop_invoked'] = 1;
-            // Send the payment capture/void call to Novalnet server
+            // Send the instalment all/remaining cycle call to Novalnet server
             $paymentResponseData = $this->paymentHelper->executeCurl($paymentRequestData, $paymentUrl, $privateKey);
             $paymentResponseData = array_merge($paymentRequestData, $paymentResponseData);
             // Booking Message
-            $paymentResponseData['bookingText'] = sprintf($this->paymentHelper->getTranslatedText('instalment_all_cycle_cancel', $transactionData['lang']), date('d.m.Y'), date('H:i:s'));
+            $paymentResponseData['bookingText'] = sprintf($this->paymentHelper->getTranslatedText('instalment_all_cycle_cancel', $transactionData['lang']), $paymentResponseData['transaction']['tid'], date('d.m.Y'), $paymentResponseData['transaction']['tid'], $paymentResponseData['transaction']['refund']['amount'], $paymentResponseData['transaction']['currency'], $paymentResponseData['transaction']['refund']['tid']);
             if(($paymentResponseData['instalment']['cancel_type'] == 'REMAINING_CYCLES')) {
-                $paymentResponseData['bookingText'] = sprintf($this->paymentHelper->getTranslatedText('instalment_remaining_cycle_cancel', $transactionData['lang']), date('d.m.Y'), date('H:i:s'));
+                $paymentResponseData['bookingText'] = sprintf($this->paymentHelper->getTranslatedText('instalment_remaining_cycle_cancel', $transactionData['lang']),$paymentResponseData['transaction']['tid'], date('d.m.Y'));
             }
             $paymentResponseData['transaction']['currency'] = $transactionData['currency'];
             // Insert the updated transaction details into Novalnet DB
