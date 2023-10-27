@@ -573,9 +573,9 @@ class WebhookController extends Controller
     public function handleInstalmentCancel()
     {
         // If the instalment cancel is captured, we update necessary alterations in DB
-        $webhookComments = sprintf($this->paymentHelper->getTranslatedText('instalment_all_cycle_cancel', $this->orderLanguage), date('d.m.Y'), date('H:i:s'));
+        $webhookComments = sprintf($this->paymentHelper->getTranslatedText('instalment_all_cycle_cancel', $this->orderLanguage), $this->eventData['event']['parent_tid'] , date('d.m.Y'), $this->eventData['event']['parent_tid'], $this->eventData['transaction']['refund']['amount'] / 100 , $this->eventData['transaction']['currency'],  $this->eventData['event']['tid']);
         if($this->eventData['instalment']['cancel_type'] == 'REMAINING_CYCLES') {
-            $webhookComments = sprintf($this->paymentHelper->getTranslatedText('instalment_remaining_cycle_cancel', $this->orderLanguage), date('d.m.Y'), date('H:i:s'));
+            $webhookComments = sprintf($this->paymentHelper->getTranslatedText('instalment_remaining_cycle_cancel', $this->orderLanguage), $this->eventData['event']['parent_tid'], date('d.m.Y'));
         }
         $this->eventData['transaction']['amount'] = 0;
         $this->eventData['transaction']['currency'] = $this->orderDetails->currency;
