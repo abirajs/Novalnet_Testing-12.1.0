@@ -374,7 +374,7 @@ class NovalnetServiceProvider extends ServiceProvider
         );
         // Event for Instalment - Recurring Process
         $instalmentProcedureTitle = [
-            'de' =>  'Novalnet | Alle Raten stornieren',
+            'de' =>  'Novalnet | Gesamte Ratenzahlung stornieren',
             'en' =>  'Novalnet | Cancel All Instalment',
         ];
         $eventProceduresService->registerProcedure(
@@ -386,8 +386,8 @@ class NovalnetServiceProvider extends ServiceProvider
 
         // Event for Instalment Cancel- Recurring Process
         $instalmentCancelProcedureTitle = [
-            'de' =>  'Novalnet | RatenzahlungStornoverbleibenderZyklus',
-            'en' =>  'Novalnet | Alle verbleibenden Raten stornieren',
+            'de' =>  'Novalnet | Alle übrigen Installationen abbrechen',
+            'en' =>  'Novalnet | Cancel All Remaining Instalment',
         ];
         $eventProceduresService->registerProcedure(
             'Novalnet',
