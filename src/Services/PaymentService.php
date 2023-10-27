@@ -1375,6 +1375,7 @@ class PaymentService
             $paymentRequestData['instalment']['tid'] = $transactionData['tid'];
             $paymentRequestData['instalment']['cancel_type'] = $transactionData['cancel_type'];
             $paymentRequestData['custom']['lang'] = strtoupper($transactionData['lang']);
+	    $paymentRequestData['custom']['shop_invoked'] = 1;
             // Send the instalment all/remaining cycle call to Novalnet server
             $paymentResponseData = $this->paymentHelper->executeCurl($paymentRequestData, $paymentUrl, $privateKey);
             $paymentResponseData = array_merge($paymentRequestData, $paymentResponseData);
