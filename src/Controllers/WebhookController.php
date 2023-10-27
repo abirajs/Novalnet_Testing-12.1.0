@@ -424,7 +424,7 @@ class WebhookController extends Controller
         if($this->eventType == 'TRANSACTION_CAPTURE') {
             $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_order_confirmation_text', $this->orderLanguage), date('d.m.Y'), date('H:i:s'));
              if(isset($this->eventData['instalment']['pending_cycles'])) {
-            $webhookComments .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment Information', $this->orderLanguage) .  PHP_EOL ;
+            $webhookComments .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment_Information', $this->orderLanguage) .  PHP_EOL ;
             $webhookComments .= $this->paymentHelper->getTranslatedText('executed_cycle', $this->orderLanguage) . $this->eventData['instalment']['cycles_executed'] . PHP_EOL;
             $webhookComments .= $this->paymentHelper->getTranslatedText('pending_cycle', $this->orderLanguage) . $this->eventData['instalment']['pending_cycles'] . PHP_EOL;
             $webhookComments .= (!empty($this->eventData['instalment']['next_cycle_date'])) ? $this->paymentHelper->getTranslatedText('next_cycle_date', $this->orderLanguage) . $this->eventData['instalment']['next_cycle_date'] : '';
@@ -462,7 +462,7 @@ class WebhookController extends Controller
                     $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_update_confirmation_text', $this->orderLanguage), $this->parentTid, sprintf('%0.2f', ($this->eventData['transaction']['amount']/100)) , $this->eventData['transaction']['currency'], date('d.m.Y'), date('H:i:s'));
                     if(in_array($this->eventData['transaction']['status'], ['CONFIRMED'])) {
 			if(isset($this->eventData['instalment']['pending_cycles'])) {
-			    $webhookComments .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment Information', $this->orderLanguage) .  PHP_EOL ;
+			    $webhookComments .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment_Information', $this->orderLanguage) .  PHP_EOL ;
 			    $webhookComments .= $this->paymentHelper->getTranslatedText('executed_cycle', $this->orderLanguage) . $this->eventData['instalment']['cycles_executed'] . PHP_EOL;
 			    $webhookComments .= $this->paymentHelper->getTranslatedText('pending_cycle', $this->orderLanguage) . $this->eventData['instalment']['pending_cycles'] . PHP_EOL;
 			    $webhookComments .= (!empty($this->eventData['instalment']['next_cycle_date'])) ? $this->paymentHelper->getTranslatedText('next_cycle_date', $this->orderLanguage) . $this->eventData['instalment']['next_cycle_date'] : '';
@@ -550,7 +550,7 @@ class WebhookController extends Controller
         // Insert the updated instalment details into Novalnet DB
         $this->paymentService->insertPaymentResponse($this->eventData);
         if(isset($this->eventData['instalment']['pending_cycles'])) {
-            $webhookComments .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment Information', $this->orderLanguage) .  PHP_EOL ;
+            $webhookComments .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment_Information', $this->orderLanguage) .  PHP_EOL ;
             $webhookComments .= $this->paymentHelper->getTranslatedText('executed_cycle', $this->orderLanguage) . $this->eventData['instalment']['cycles_executed'] . PHP_EOL;
             $webhookComments .= $this->paymentHelper->getTranslatedText('pending_cycle', $this->orderLanguage) . $this->eventData['instalment']['pending_cycles'] . PHP_EOL;
             $webhookComments .= (!empty($this->eventData['instalment']['next_cycle_date'])) ? $this->paymentHelper->getTranslatedText('next_cycle_date', $this->orderLanguage) . $this->eventData['instalment']['next_cycle_date'] : '';
