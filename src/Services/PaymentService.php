@@ -1123,7 +1123,7 @@ class PaymentService
        $InstalmentComments  = '';
        if(isset($transactionData['pending_cycles'])) {
             $nextCycleDate    = (!empty($transactionData['next_cycle_date'])) ? $this->paymentHelper->getTranslatedText('next_cycle_date') . $transactionData['next_cycle_date'] : '';
-            $InstalmentComments .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment Information') .  PHP_EOL ;
+            $InstalmentComments .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment_Information') .  PHP_EOL ;
             $InstalmentComments .=  $this->paymentHelper->getTranslatedText('executed_cycle') . $transactionData['cycles_executed'] . PHP_EOL;
             $InstalmentComments .=  $this->paymentHelper->getTranslatedText('pending_cycle') . $transactionData['pending_cycles'] . PHP_EOL;
             if(!empty($nextCycleDate)) {
@@ -1173,7 +1173,7 @@ class PaymentService
             if(in_array($paymentResponseData['transaction']['status'], ['PENDING', 'CONFIRMED'])) {
                 $paymentResponseData['bookingText'] = sprintf($this->paymentHelper->getTranslatedText('webhook_order_confirmation_text', $transactionData['lang']), date('d.m.Y'), date('H:i:s'));
 		if(isset($paymentResponseData['instalment']['pending_cycles'])) {
-		$paymentResponseData['bookingText'] .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment Information', $transactionData['lang']) .  PHP_EOL ;
+		$paymentResponseData['bookingText'] .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment_Information', $transactionData['lang']) .  PHP_EOL ;
 		$paymentResponseData['bookingText'] .= $this->paymentHelper->getTranslatedText('executed_cycle', $transactionData['lang']) . $paymentResponseData['instalment']['cycles_executed'] . PHP_EOL;
 		$paymentResponseData['bookingText'] .= $this->paymentHelper->getTranslatedText('pending_cycle', $transactionData['lang']) . $paymentResponseData['instalment']['pending_cycles'] . PHP_EOL;
 		$paymentResponseData['bookingText'] .= (!empty($paymentResponseData['instalment']['next_cycle_date'])) ? $this->paymentHelper->getTranslatedText('next_cycle_date', $transactionData['lang']) . $paymentResponseData['instalment']['next_cycle_date'] : '';
