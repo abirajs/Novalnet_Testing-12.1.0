@@ -422,7 +422,7 @@ class WebhookController extends Controller
     {
         // If the transaction is captured, we update necessary alterations in DB
         if($this->eventType == 'TRANSACTION_CAPTURE') {
-            $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_order_confirmation_text', $this->orderLanguage), date('d.m.Y'), date('H:i:s'));
+            $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_order_confirmation_text', $this->orderLanguage), date('d-m-Y'), date('H:i:s'));
              if(isset($this->eventData['instalment']['pending_cycles'])) {
             $webhookComments .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment_Information', $this->orderLanguage) .  PHP_EOL ;
             $webhookComments .= $this->paymentHelper->getTranslatedText('executed_cycle', $this->orderLanguage) . $this->eventData['instalment']['cycles_executed'] . PHP_EOL;
@@ -433,7 +433,7 @@ class WebhookController extends Controller
         } else {
         $this->eventData['transaction']['amount'] = 0;
         $this->eventData['transaction']['currency'] = $this->orderDetails->currency;
-            $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_transaction_cancellation', $this->orderLanguage), date('d.m.Y'), date('H:i:s'));
+            $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_transaction_cancellation', $this->orderLanguage), date('d-m-Y'), date('H:i:s'));
         }
         // Insert the updated transaction details into Novalnet DB
         $this->paymentService->insertPaymentResponse($this->eventData);
@@ -456,10 +456,10 @@ class WebhookController extends Controller
         if($this->eventData['transaction']['update_type'] == 'STATUS') {
             // // If the transaction is cancelled
             if($this->eventData['transaction']['status'] == 'DEACTIVATED') {
-                $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_transaction_cancellation', $this->orderLanguage), date('d.m.Y'), date('H:i:s'));
+                $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_transaction_cancellation', $this->orderLanguage), date('d-m-Y'), date('H:i:s'));
             } else {
                 if(in_array($this->eventData['transaction']['status'], ['ON_HOLD', 'CONFIRMED'])) {
-                    $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_update_confirmation_text', $this->orderLanguage), $this->parentTid, sprintf('%0.2f', ($this->eventData['transaction']['amount']/100)) , $this->eventData['transaction']['currency'], date('d.m.Y'), date('H:i:s'));
+                    $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_update_confirmation_text', $this->orderLanguage), $this->parentTid, sprintf('%0.2f', ($this->eventData['transaction']['amount']/100)) , $this->eventData['transaction']['currency'], date('d-m-Y'), date('H:i:s'));
                     if(in_array($this->eventData['transaction']['status'], ['CONFIRMED'])) {
 			if(isset($this->eventData['instalment']['pending_cycles'])) {
 			    $webhookComments .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment_Information', $this->orderLanguage) .  PHP_EOL ;
@@ -471,7 +471,7 @@ class WebhookController extends Controller
 		    }
 		    // If the transaction status is On-Hold
                     if($this->eventData['transaction']['status'] == 'ON_HOLD') {
-                        $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_pending_to_onhold_status_change', $this->orderLanguage), $this->parentTid, date('d.m.Y'), date('H:i:s'));
+                        $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_pending_to_onhold_status_change', $this->orderLanguage), $this->parentTid, date('d-m-Y'), date('H:i:s'));
                     }
                 }
             }
@@ -489,7 +489,7 @@ class WebhookController extends Controller
             // Due date update text
             $dueDateUpdateMessage = sprintf($this->paymentHelper->getTranslatedText('webhook_duedate_update_message', $this->orderLanguage), sprintf('%0.2f', ($this->eventData['transaction']['amount']/100)) , $this->eventData['transaction']['currency'], $this->eventData['transaction']['due_date']);
             // Amount update text
-            $amountUpdateMessage = sprintf($this->paymentHelper->getTranslatedText('webhook_amount_update_message', $this->orderLanguage), sprintf('%0.2f', ($this->eventData['transaction']['amount']/100)) , $this->eventData['transaction']['currency'], date('d.m.Y'), date('H:i:s'));
+            $amountUpdateMessage = sprintf($this->paymentHelper->getTranslatedText('webhook_amount_update_message', $this->orderLanguage), sprintf('%0.2f', ($this->eventData['transaction']['amount']/100)) , $this->eventData['transaction']['currency'], date('d-m-Y'), date('H:i:s'));
             // Update the transaction details in the Novalnet DB
             $this->transactionService->updateTransactionData('orderNo', $this->eventData['transaction']['order_no'], $this->eventData);
             // Update the transaction details in the Novalnet DB
@@ -546,7 +546,7 @@ class WebhookController extends Controller
     public function handleInstalment()
     {
         // If the instalemnt is proceeded, we update necessary alterations in DB
-        $webhookComments = sprintf($this->paymentHelper->getTranslatedText('instalment', $this->orderLanguage), $this->eventData['event']['parent_tid'], $this->eventData['instalment']['cycle_amount'] / 100 , $this->eventData['transaction']['currency'],  $this->eventData['event']['tid'], date('d.m.Y'), date('H:i:s'));
+        $webhookComments = sprintf($this->paymentHelper->getTranslatedText('instalment', $this->orderLanguage), $this->eventData['event']['parent_tid'], $this->eventData['instalment']['cycle_amount'] / 100 , $this->eventData['transaction']['currency'],  $this->eventData['event']['tid'], date('d-m-Y'), date('H:i:s'));
         // Insert the updated instalment details into Novalnet DB
         $this->paymentService->insertPaymentResponse($this->eventData);
         if(isset($this->eventData['instalment']['pending_cycles'])) {
@@ -573,9 +573,9 @@ class WebhookController extends Controller
     public function handleInstalmentCancel()
     {
         // If the instalment cancel is captured, we update necessary alterations in DB
-        $webhookComments = sprintf($this->paymentHelper->getTranslatedText('instalment_all_cycle_cancel', $this->orderLanguage), $this->eventData['event']['parent_tid'] , date('d.m.Y'), $this->eventData['event']['parent_tid'], $this->eventData['transaction']['refund']['amount'] / 100 , $this->eventData['transaction']['currency'],  $this->eventData['event']['tid']);
+        $webhookComments = sprintf($this->paymentHelper->getTranslatedText('instalment_all_cycle_cancel', $this->orderLanguage), $this->eventData['event']['parent_tid'] , date('d-m-Y'), $this->eventData['event']['parent_tid'], $this->eventData['transaction']['refund']['amount'] / 100 , $this->eventData['transaction']['currency'],  $this->eventData['event']['tid']);
         if($this->eventData['instalment']['cancel_type'] == 'REMAINING_CYCLES') {
-            $webhookComments = sprintf($this->paymentHelper->getTranslatedText('instalment_remaining_cycle_cancel', $this->orderLanguage), $this->eventData['event']['parent_tid'], date('d.m.Y'));
+            $webhookComments = sprintf($this->paymentHelper->getTranslatedText('instalment_remaining_cycle_cancel', $this->orderLanguage), $this->eventData['event']['parent_tid'], date('d-m-Y'));
         }
         $this->eventData['transaction']['amount'] = 0;
         $this->eventData['transaction']['currency'] = $this->orderDetails->currency;
@@ -597,7 +597,7 @@ class WebhookController extends Controller
      */
     public function handleTransactionCredit()
     {
-        $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_initial_execution', $this->orderLanguage), $this->parentTid, sprintf('%0.2f', ($this->eventData['transaction']['amount']/100)), $this->eventData['transaction']['currency'], date('d.m.Y'), date('H:i:s'), $this->eventTid);
+        $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_initial_execution', $this->orderLanguage), $this->parentTid, sprintf('%0.2f', ($this->eventData['transaction']['amount']/100)), $this->eventData['transaction']['currency'], date('d-m-Y'), date('H:i:s'), $this->eventTid);
         if(in_array($this->eventData['transaction']['payment_type'], ['INVOICE_CREDIT', 'CASHPAYMENT_CREDIT', 'ONLINE_TRANSFER_CREDIT', 'MULTIBANCO_CREDIT'])) {
             if($this->orderDetails->orderTotalAmount >= $this->orderDetails->orderPaidAmount) {
                 $this->eventData['unaccountable'] = 0;
@@ -630,11 +630,11 @@ class WebhookController extends Controller
     public function handleChargeback()
     {
         if($this->eventData['transaction']['payment_type'] == 'RETURN_DEBIT_SEPA') {
-            $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_return_debit_execution', $this->orderLanguage), $this->parentTid, sprintf('%0.2f', ($this->eventData['transaction']['amount']/100)), $this->eventData['transaction']['currency'], date('d.m.Y'), date('H:i:s'), $this->eventTid);
+            $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_return_debit_execution', $this->orderLanguage), $this->parentTid, sprintf('%0.2f', ($this->eventData['transaction']['amount']/100)), $this->eventData['transaction']['currency'], date('d-m-Y'), date('H:i:s'), $this->eventTid);
         } elseif($this->eventData['transaction']['payment_type'] == 'REVERSAL') {
-            $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_reversal_execution', $this->orderLanguage), $this->parentTid, sprintf('%0.2f', ($this->eventData['transaction']['amount']/100)), $this->eventData['transaction']['currency'], date('d.m.Y'), date('H:i:s'), $this->eventTid);
+            $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_reversal_execution', $this->orderLanguage), $this->parentTid, sprintf('%0.2f', ($this->eventData['transaction']['amount']/100)), $this->eventData['transaction']['currency'], date('d-m-Y'), date('H:i:s'), $this->eventTid);
         } else {
-            $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_chargeback_execution', $this->orderLanguage), $this->parentTid, sprintf('%0.2f', ($this->eventData['transaction']['amount']/100)) , $this->eventData['transaction']['currency'], date('d.m.Y'), date('H:i:s'), $this->eventTid);
+            $webhookComments = sprintf($this->paymentHelper->getTranslatedText('webhook_chargeback_execution', $this->orderLanguage), $this->parentTid, sprintf('%0.2f', ($this->eventData['transaction']['amount']/100)) , $this->eventData['transaction']['currency'], date('d-m-Y'), date('H:i:s'), $this->eventTid);
         }
         $RefundOrderTotalAmount = $this->orderDetails->orderTotalAmount;
         // Insert the refund details into Novalnet DB
