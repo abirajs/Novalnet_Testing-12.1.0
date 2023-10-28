@@ -1171,7 +1171,7 @@ class PaymentService
             $paymentResponseData = array_merge($paymentRequestData, $paymentResponseData);
             // Booking Message
             if(in_array($paymentResponseData['transaction']['status'], ['PENDING', 'CONFIRMED'])) {
-                $paymentResponseData['bookingText'] = sprintf($this->paymentHelper->getTranslatedText('webhook_order_confirmation_text', $transactionData['lang']), date('d.m.Y'), date('H:i:s'));
+                $paymentResponseData['bookingText'] = sprintf($this->paymentHelper->getTranslatedText('webhook_order_confirmation_text', $transactionData['lang']), date('d-m-Y'), date('H:i:s'));
 		if(isset($paymentResponseData['instalment']['pending_cycles'])) {
 		$paymentResponseData['bookingText'] .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment_Information', $transactionData['lang']) .  PHP_EOL ;
 		$paymentResponseData['bookingText'] .= $this->paymentHelper->getTranslatedText('executed_cycle', $transactionData['lang']) . $paymentResponseData['instalment']['cycles_executed'] . PHP_EOL;
@@ -1182,7 +1182,7 @@ class PaymentService
             } else {
                 $paymentResponseData['transaction']['amount'] = 0;
                 $paymentResponseData['transaction']['currency'] = $transactionData['currency'];
-                $paymentResponseData['bookingText'] = sprintf($this->paymentHelper->getTranslatedText('webhook_transaction_cancellation', $transactionData['lang']), date('d.m.Y'), date('H:i:s'));
+                $paymentResponseData['bookingText'] = sprintf($this->paymentHelper->getTranslatedText('webhook_transaction_cancellation', $transactionData['lang']), date('d-m-Y'), date('H:i:s'));
             }
             // Insert the updated transaction details into Novalnet DB
             $this->insertPaymentResponse($paymentResponseData);
@@ -1380,9 +1380,9 @@ class PaymentService
             $paymentResponseData = $this->paymentHelper->executeCurl($paymentRequestData, $paymentUrl, $privateKey);
             $paymentResponseData = array_merge($paymentRequestData, $paymentResponseData);
             // Booking Message
-            $paymentResponseData['bookingText'] = sprintf($this->paymentHelper->getTranslatedText('instalment_all_cycle_cancel', $transactionData['lang']), $paymentResponseData['transaction']['tid'], date('d.m.Y'), $paymentResponseData['transaction']['tid'], $paymentResponseData['transaction']['refund']['amount'], $paymentResponseData['transaction']['currency'], $paymentResponseData['transaction']['refund']['tid']);
+            $paymentResponseData['bookingText'] = sprintf($this->paymentHelper->getTranslatedText('instalment_all_cycle_cancel', $transactionData['lang']), $paymentResponseData['transaction']['tid'], date('d-m-Y'), $paymentResponseData['transaction']['tid'], $paymentResponseData['transaction']['refund']['amount'], $paymentResponseData['transaction']['currency'], $paymentResponseData['transaction']['refund']['tid']);
             if(($paymentResponseData['instalment']['cancel_type'] == 'REMAINING_CYCLES')) {
-                $paymentResponseData['bookingText'] = sprintf($this->paymentHelper->getTranslatedText('instalment_remaining_cycle_cancel', $transactionData['lang']),$paymentResponseData['transaction']['tid'], date('d.m.Y'));
+                $paymentResponseData['bookingText'] = sprintf($this->paymentHelper->getTranslatedText('instalment_remaining_cycle_cancel', $transactionData['lang']),$paymentResponseData['transaction']['tid'], date('d-m-Y'));
             }
             $paymentResponseData['transaction']['currency'] = $transactionData['currency'];
             // Insert the updated transaction details into Novalnet DB
