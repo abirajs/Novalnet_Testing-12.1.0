@@ -467,8 +467,18 @@ class PaymentService
         $this->sessionStorage->getPlugin()->setValue('nnReinitiatePayment', null);
         // Send the order no to Novalnet server if order is created initially
        if($this->settingsService->getPaymentSettingsValue('novalnet_order_creation') == true || !empty($nnOrderCreator) || ($nnReinitiatePayment == 1)) {
-            $paymentRequestData['paymentRequestData']['transaction']['order_no'] = $this->sessionStorage->getPlugin()->getValue('nnOrderNo');
+        	$paymentRequestData['paymentRequestData']['transaction']['order_no'] = $this->sessionStorage->getPlugin()->getValue('nnOrderNo');
         }
+	if((empty($paymentRequestData['paymentRequestData']['customer']['first_name']) && empty($paymentRequestData['paymentRequestData']['customer']['last_name'])) || empty($paymentRequestData['paymentRequestData']['customer']['email'])) {
+			$content = $paymentHelper->getTranslatedText('nn_first_last_name_error');
+			$this->pushNotification($content, 'error', 100);
+			return $this->response->redirectTo($this->sessionStorage->getLocaleSettings()->language . '/confirmation');
+		if(empty($paymentRequestData['paymentRequestData']['customer']['email'])){
+			$content = $paymentHelper->getTranslatedText('nn_email_error');
+			$this->pushNotification($content, 'error', 100);
+			return $this->response->redirectTo($this->sessionStorage->getLocaleSettings()->language . '/confirmation');  
+	}
+	}
         $privateKey = $this->settingsService->getPaymentSettingsValue('novalnet_private_key');
         $paymentResponseData = $this->paymentHelper->executeCurl($paymentRequestData['paymentRequestData'], $paymentRequestData['paymentUrl'], $privateKey);
         $isPaymentSuccess = isset($paymentResponseData['result']['status']) && $paymentResponseData['result']['status'] == 'SUCCESS';
