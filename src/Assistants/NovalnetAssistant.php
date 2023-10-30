@@ -630,63 +630,63 @@ class NovalnetAssistant extends WizardProvider
                            'checkboxValues' =>
                            [
                                 [
-                                   'caption' => '2 Cycle',
+                                   'caption' => '2 Cycles',
                                    'value' => 2
                                 ],
                                 [
-                                   'caption' => '3 Cycle',
+                                   'caption' => '3 Cycles',
                                    'value' => 3
                                 ],
                                 [
-                                   'caption' => '4 Cycle',
+                                   'caption' => '4 Cycles',
                                    'value' => 4
                                 ],
                                 [
-                                   'caption' => '5 Cycle',
+                                   'caption' => '5 Cycles',
                                    'value' => 5
                                 ],
                                 [
-                                   'caption' => '6 Cycle',
+                                   'caption' => '6 Cycles',
                                    'value' => 6
                                 ],
                                 [
-                                   'caption' => '7 Cycle',
+                                   'caption' => '7 Cycles',
                                    'value' => 7
                                 ],
                                 [
-                                   'caption' => '8 Cycle',
+                                   'caption' => '8 Cycles',
                                    'value' => 8
                                 ],
                                 [
-                                   'caption' => '9 Cycle',
+                                   'caption' => '9 Cycles',
                                    'value' => 9
                                 ],
                                 [
-                                   'caption' => '10 Cycle',
+                                   'caption' => '10 Cycles',
                                    'value' => 10
                                 ],
                                 [
-                                   'caption' => '11 Cycle',
+                                   'caption' => '11 Cycles',
                                    'value' => 11
                                 ],
                                 [
-                                   'caption' => '12 Cycle',
+                                   'caption' => '12 Cycles',
                                    'value' => 12
                                 ],
                                 [
-                                   'caption' => '15 Cycle',
+                                   'caption' => '15 Cycles',
                                    'value' => 15
                                 ],
                                 [
-                                   'caption' => '18 Cycle',
+                                   'caption' => '18 Cycles',
                                    'value' => 18
                                 ],
                                 [
-                                   'caption' => '21 Cycle',
+                                   'caption' => '21 Cycles',
                                    'value' => 21
                                 ],
                                 [
-                                   'caption' => '24 Cycle',
+                                   'caption' => '24 Cycles',
                                    'value' => 24
                                 ],
                            ],
