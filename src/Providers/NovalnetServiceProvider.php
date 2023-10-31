@@ -139,6 +139,7 @@ class NovalnetServiceProvider extends ServiceProvider
             function(GetPaymentMethodContent $event) use($basketRepository, $paymentHelper, $paymentService, $sessionStorage, $twig, $settingsService) {
                 $paymentKey = $paymentHelper->getPaymentKeyByMop($event->getMop());
                 if($paymentKey) {
+                    $sessionStorage->getPlugin()->setValue('orderCurency', null);
                     $paymentRequestData = $paymentService->generatePaymentParams($basketRepository->load(), $paymentKey);
                 if((empty($paymentRequestData['paymentRequestData']['customer']['first_name']) && empty($paymentRequestData['paymentRequestData']['customer']['last_name'])) || empty($paymentRequestData['paymentRequestData']['customer']['email'])) {
                     $content = $paymentHelper->getTranslatedText('nn_first_last_name_error');
