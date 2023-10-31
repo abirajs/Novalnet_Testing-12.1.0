@@ -482,9 +482,9 @@ class PaymentService
 			$this->pushNotification($content, 'error', 100);
 		if(empty($paymentRequestData['paymentRequestData']['customer']['email'])){
 			$content = $this->paymentHelper->getTranslatedText('nn_email_error');
-			$this->pushNotification($content, 'error', 100);
-			return $this->response->redirectTo($this->sessionStorage->getLocaleSettings()->language . '/confirmation');  
-	}
+			$this->pushNotification($content, 'error', 100);	
+		}
+		return $this->response->redirectTo($this->sessionStorage->getLocaleSettings()->language . '/confirmation');  
 	}
         $privateKey = $this->settingsService->getPaymentSettingsValue('novalnet_private_key');
         $paymentResponseData = $this->paymentHelper->executeCurl($paymentRequestData['paymentRequestData'], $paymentRequestData['paymentUrl'], $privateKey);
