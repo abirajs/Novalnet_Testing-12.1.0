@@ -1390,7 +1390,7 @@ class PaymentService
             $paymentResponseData = $this->paymentHelper->executeCurl($paymentRequestData, $paymentUrl, $privateKey);
             $paymentResponseData = array_merge($paymentRequestData, $paymentResponseData);
             // Booking Message
-            $paymentResponseData['bookingText'] = sprintf($this->paymentHelper->getTranslatedText('instalment_all_cycle_cancel', $transactionData['lang']), $paymentResponseData['transaction']['tid'], date('d-m-Y'), $paymentResponseData['transaction']['tid'], $paymentResponseData['transaction']['refund']['amount'], $paymentResponseData['transaction']['currency'], $paymentResponseData['transaction']['refund']['tid']);
+            $paymentResponseData['bookingText'] = sprintf($this->paymentHelper->getTranslatedText('instalment_all_cycle_cancel', $transactionData['lang']), $paymentResponseData['transaction']['tid'], date('d-m-Y'), $paymentResponseData['transaction']['tid'], $paymentResponseData['transaction']['refund']['amount'] / 100, $paymentResponseData['transaction']['currency'], $paymentResponseData['transaction']['refund']['tid']);
             if(($paymentResponseData['instalment']['cancel_type'] == 'REMAINING_CYCLES')) {
                 $paymentResponseData['bookingText'] = sprintf($this->paymentHelper->getTranslatedText('instalment_remaining_cycle_cancel', $transactionData['lang']),$paymentResponseData['transaction']['tid'], date('d-m-Y'));
             }
