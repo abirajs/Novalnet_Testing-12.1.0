@@ -477,7 +477,7 @@ class PaymentService
        if($this->settingsService->getPaymentSettingsValue('novalnet_order_creation') == true || !empty($nnOrderCreator) || ($nnReinitiatePayment == 1)) {
         	$paymentRequestData['paymentRequestData']['transaction']['order_no'] = $this->sessionStorage->getPlugin()->getValue('nnOrderNo');
         }
-	if((empty($paymentRequestData['paymentRequestData']['customer']['first_name']) && empty($paymentRequestData['paymentRequestData']['customer']['last_name'])) || empty($paymentRequestData['paymentRequestData']['customer']['email'])) {
+	if((empty($paymentRequestData['paymentRequestData']['customer']['first_name']) || empty($paymentRequestData['paymentRequestData']['customer']['last_name'])) || empty($paymentRequestData['paymentRequestData']['customer']['email'])) {
 			$content = $this->paymentHelper->getTranslatedText('nn_first_last_name_error');
 			$this->pushNotification($content, 'error', 100);
 		if(empty($paymentRequestData['paymentRequestData']['customer']['email'])){
