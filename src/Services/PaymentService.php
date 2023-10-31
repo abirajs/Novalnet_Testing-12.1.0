@@ -470,11 +470,11 @@ class PaymentService
         	$paymentRequestData['paymentRequestData']['transaction']['order_no'] = $this->sessionStorage->getPlugin()->getValue('nnOrderNo');
         }
 	if((empty($paymentRequestData['paymentRequestData']['customer']['first_name']) && empty($paymentRequestData['paymentRequestData']['customer']['last_name'])) || empty($paymentRequestData['paymentRequestData']['customer']['email'])) {
-			$content = $paymentHelper->getTranslatedText('nn_first_last_name_error');
+			$content = $this->paymentHelper->getTranslatedText('nn_first_last_name_error');
 			$this->pushNotification($content, 'error', 100);
 			return $this->response->redirectTo($this->sessionStorage->getLocaleSettings()->language . '/confirmation');
 		if(empty($paymentRequestData['paymentRequestData']['customer']['email'])){
-			$content = $paymentHelper->getTranslatedText('nn_email_error');
+			$content = $this->paymentHelper->getTranslatedText('nn_email_error');
 			$this->pushNotification($content, 'error', 100);
 			return $this->response->redirectTo($this->sessionStorage->getLocaleSettings()->language . '/confirmation');  
 	}
