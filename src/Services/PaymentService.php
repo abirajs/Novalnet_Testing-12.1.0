@@ -469,6 +469,7 @@ class PaymentService
         $paymentRequestData = $this->sessionStorage->getPlugin()->getValue('nnPaymentData');
         $paymentKey = $this->paymentHelper->getPaymentKey($paymentRequestData['paymentRequestData']['transaction']['payment_type']);
         $nnDoRedirect = $this->sessionStorage->getPlugin()->getValue('nnDoRedirect');
+	$nnGooglePayDoRedirect = $this->sessionStorage->getPlugin()->getValue('nnGooglePayDoRedirect');
         $nnOrderCreator = $this->sessionStorage->getPlugin()->getValue('nnOrderCreator');
         $nnReinitiatePayment   = $this->sessionStorage->getPlugin()->getValue('nnReinitiatePayment');
         $this->sessionStorage->getPlugin()->setValue('nnOrderCreator', null);
@@ -490,7 +491,7 @@ class PaymentService
         $paymentResponseData = $this->paymentHelper->executeCurl($paymentRequestData['paymentRequestData'], $paymentRequestData['paymentUrl'], $privateKey);
         $isPaymentSuccess = isset($paymentResponseData['result']['status']) && $paymentResponseData['result']['status'] == 'SUCCESS';
         // Do redirect if the redirect URL is present
-        if($this->isRedirectPayment($paymentKey) || !empty($nnDoRedirect)) {
+        if($this->isRedirectPayment($paymentKey) || !empty($nnDoRedirect) || (!empty($nnGooglePayDoRedirect) && (string) $nnGooglePayDoRedirect === 'true')) {
             // Set the payment response in the session for the further processings
             $this->sessionStorage->getPlugin()->setValue('nnPaymentData', $paymentRequestData['paymentRequestData']);
             return $paymentResponseData;
@@ -593,6 +594,7 @@ class PaymentService
         $nnPaymentData = $this->sessionStorage->getPlugin()->getValue('nnPaymentData');
         $this->sessionStorage->getPlugin()->setValue('nnPaymentData', null);
         $this->sessionStorage->getPlugin()->setValue('nnDoRedirect', null);
+	$this->sessionStorage->getPlugin()->setValue('nnGooglePayDoRedirect', null);
         $nnPaymentData['mop']            = $this->sessionStorage->getPlugin()->getValue('mop');
         $nnPaymentData['payment_method'] = strtolower($this->paymentHelper->getPaymentKeyByMop($nnPaymentData['mop']));
         // If Order No is not received from the payment response assign the from the session
