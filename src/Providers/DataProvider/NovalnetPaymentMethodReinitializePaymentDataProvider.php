@@ -68,6 +68,11 @@ class NovalnetPaymentMethodReinitializePaymentDataProvider
                 } else {
                     $invoiceAmount = $paymentHelper->convertAmountToSmallerUnit($order['amounts'][0]['invoiceTotal']);
                 }
+
+                // Get order currency
+                foreach($order['amounts'] as $orderAmount) {
+                    $sessionStorage->getPlugin()->setValue('orderCurrency', $orderAmount['currency']);    
+                }
                 // Set the required values into session
                 $sessionStorage->getPlugin()->setValue('nnOrderNo', $order['id']);
                 $sessionStorage->getPlugin()->setValue('nnOrderCreator', $order['ownerId']);
@@ -136,9 +141,9 @@ class NovalnetPaymentMethodReinitializePaymentDataProvider
                                     'redirectUrl' => $paymentService->getRedirectPaymentUrl(),
                                     'orderLang'   => $paymentRequestData['paymentRequestData']['custom']['lang'],
                                     'countryCode' => $paymentRequestData['paymentRequestData']['customer']['billing']['country_code'],
-                                    'orderCurrency'  => $basketRepository->load()->currency,
+                                    'orderCurrency'  =>  $sessionStorage->getPlugin()->getValue('orderCurrency'),
                                     'googlePayData' => !empty($googlePayData) ? $googlePayData : '',
-                                    'Currency'  => $currency,
+                                    'Currency'  => $sessionStorage->getPlugin()->getValue('orderCurrency'),
                                     'AccountHolderName'  => $paymentRequestData['paymentRequestData']['customer']['first_name'] . ' ' . $paymentRequestData['paymentRequestData']['customer']['last_name'],
                                 ]);
                }
