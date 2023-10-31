@@ -480,7 +480,6 @@ class PaymentService
 	if((empty($paymentRequestData['paymentRequestData']['customer']['first_name']) && empty($paymentRequestData['paymentRequestData']['customer']['last_name'])) || empty($paymentRequestData['paymentRequestData']['customer']['email'])) {
 			$content = $this->paymentHelper->getTranslatedText('nn_first_last_name_error');
 			$this->pushNotification($content, 'error', 100);
-			return $this->response->redirectTo($this->sessionStorage->getLocaleSettings()->language . '/confirmation');
 		if(empty($paymentRequestData['paymentRequestData']['customer']['email'])){
 			$content = $this->paymentHelper->getTranslatedText('nn_email_error');
 			$this->pushNotification($content, 'error', 100);
