@@ -269,7 +269,7 @@ class PaymentController extends Controller
         $this->sessionStorage->getPlugin()->setValue('nnReinitiatePayment', '1');
         }
 	$paymentRequestData = $this->sessionStorage->getPlugin()->getValue('nnPaymentData');
-	if((empty($paymentRequestData['paymentRequestData']['customer']['first_name']) && empty($paymentRequestData['paymentRequestData']['customer']['last_name'])) || empty($paymentRequestData['paymentRequestData']['customer']['email'])) {
+	if((empty($paymentRequestData['paymentRequestData']['customer']['first_name']) || empty($paymentRequestData['paymentRequestData']['customer']['last_name'])) || empty($paymentRequestData['paymentRequestData']['customer']['email'])) {
 		$content = $this->paymentHelper->getTranslatedText('nn_first_last_name_error');
 		 $this->paymentService->pushNotification($content, 'error', 100);
 	   if(empty($paymentRequestData['paymentRequestData']['customer']['email'])){
