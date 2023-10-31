@@ -182,7 +182,7 @@ class WebhookController extends Controller
                 case 'TRANSACTION_REFUND':
                     return $this->handleTransactionRefund();
                 case 'INSTALMENT':
-                    return $this->handleInstalment();
+                    return $this->();
                 case 'INSTALMENT_CANCEL':
                     return $this->handleInstalmentCancel();
                 case 'CREDIT':
@@ -546,7 +546,7 @@ class WebhookController extends Controller
     public function handleInstalment()
     {
         // If the instalemnt is proceeded, we update necessary alterations in DB
-        $webhookComments = sprintf($this->paymentHelper->getTranslatedText('instalment', $this->orderLanguage), $this->eventData['event']['parent_tid'], $this->eventData['instalment']['cycle_amount'] / 100 , $this->eventData['instalment']['currency'],  $this->eventData['event']['tid'], date('d.m.Y'), date('H:i:s'));
+        $webhookComments = sprintf($this->paymentHelper->getTranslatedText('instalment', $this->orderLanguage), $this->eventData['event']['parent_tid'], $this->eventData['instalment']['cycle_amount'] / 100 , $this->eventData['instalment']['currency'],  $this->eventData['event']['tid'], date('d-m-Y'), date('H:i:s'));
         if(isset($this->eventData['instalment']['pending_cycles'])) {
             $webhookComments .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment Information', $this->orderLanguage) .  PHP_EOL ;
             $webhookComments .= $this->paymentHelper->getTranslatedText('executed_cycle', $this->orderLanguage) . $this->eventData['instalment']['cycles_executed'] . PHP_EOL;
