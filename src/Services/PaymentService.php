@@ -22,6 +22,7 @@ use Plenty\Modules\Helper\Services\WebstoreHelper;
 use Plenty\Modules\Plugin\DataBase\Contracts\DataBase;
 use Plenty\Modules\Plugin\DataBase\Contracts\Query;
 use Plenty\Modules\Payment\Contracts\PaymentRepositoryContract;
+use Plenty\Plugin\Http\Response;
 use Plenty\Plugin\Log\Loggable;
 
 /**
@@ -38,6 +39,11 @@ class PaymentService
      */
     private $settingsService;
 
+    /**
+     * @var Response
+     */
+    private $response;
+	
     /**
      * @var PaymentHelper
      */
@@ -93,6 +99,7 @@ class PaymentService
     public function __construct(SettingsService $settingsService,
                                 PaymentHelper $paymentHelper,
                                 WebstoreHelper $webstoreHelper,
+				Response $response,
                                 AddressRepositoryContract $addressRepository,
                                 CountryRepositoryContract $countryRepository,
                                 FrontendSessionStorageFactoryContract $sessionStorage,
@@ -104,6 +111,7 @@ class PaymentService
         $this->paymentHelper        = $paymentHelper;
         $this->webstoreHelper       = $webstoreHelper;
         $this->addressRepository    = $addressRepository;
+	$this->response             = $response;
         $this->countryRepository    = $countryRepository;
         $this->sessionStorage       = $sessionStorage;
         $this->transactionService   = $transactionService;
