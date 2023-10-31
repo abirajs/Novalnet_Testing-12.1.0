@@ -546,18 +546,18 @@ class WebhookController extends Controller
     public function handleInstalment()
     {
         // If the instalemnt is proceeded, we update necessary alterations in DB
-        $webhookComments = sprintf($this->paymentHelper->getTranslatedText('instalment', $this->orderLanguage), $this->eventData['event']['parent_tid'], $this->eventData['instalment']['cycle_amount'] / 100 , $this->eventData['transaction']['currency'],  $this->eventData['event']['tid'], date('d-m-Y'), date('H:i:s'));
-        // Insert the updated instalment details into Novalnet DB
-        $this->paymentService->insertPaymentResponse($this->eventData);
+        $webhookComments = sprintf($this->paymentHelper->getTranslatedText('instalment', $this->orderLanguage), $this->eventData['event']['parent_tid'], $this->eventData['instalment']['cycle_amount'] / 100 , $this->eventData['instalment']['currency'],  $this->eventData['event']['tid'], date('d.m.Y'), date('H:i:s'));
         if(isset($this->eventData['instalment']['pending_cycles'])) {
-            $webhookComments .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment_Information', $this->orderLanguage) .  PHP_EOL ;
+            $webhookComments .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment Information', $this->orderLanguage) .  PHP_EOL ;
             $webhookComments .= $this->paymentHelper->getTranslatedText('executed_cycle', $this->orderLanguage) . $this->eventData['instalment']['cycles_executed'] . PHP_EOL;
             $webhookComments .= $this->paymentHelper->getTranslatedText('pending_cycle', $this->orderLanguage) . $this->eventData['instalment']['pending_cycles'] . PHP_EOL;
             $webhookComments .= (!empty($this->eventData['instalment']['next_cycle_date'])) ? $this->paymentHelper->getTranslatedText('next_cycle_date', $this->orderLanguage) . $this->eventData['instalment']['next_cycle_date'] : '';
-            $webhookComments .= $this->paymentHelper->getTranslatedText('instalment_cycle_amount', $this->orderLanguage) . $this->eventData['instalment']['cycle_amount'] / 100 . $this->eventData['transaction']['currency'] . PHP_EOL ;
+            $webhookComments .= $this->paymentHelper->getTranslatedText('instalment_cycle_amount', $this->orderLanguage) . $this->eventData['instalment']['cycle_amount'] / 100 . $this->eventData['instalment']['currency'] . PHP_EOL ;
         }
         // Booking Message
         $this->eventData['bookingText'] = $webhookComments;
+        // Insert the updated instalment details into Novalnet DB
+        $this->paymentService->insertPaymentResponse($this->eventData, $this->parentTid, 0, 0);
         // Create the payment to the plenty order
         $this->paymentHelper->createPlentyPayment($this->eventData);
         $this->sendWebhookMail($webhookComments);
