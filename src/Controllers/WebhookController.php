@@ -550,7 +550,7 @@ class WebhookController extends Controller
         // If the instalemnt is proceeded, we update necessary alterations in DB
         $webhookComments = sprintf($this->paymentHelper->getTranslatedText('instalment', $this->orderLanguage), $this->eventData['event']['parent_tid'],  sprintf('%0.2f', ($this->eventData['instalment']['cycle_amount'] / 100 )), $this->eventData['transaction']['currency'],  $this->eventData['event']['tid'], date('d-m-Y'), date('H:i:s'));
         if(isset($this->eventData['instalment']['pending_cycles'])) {
-            $webhookComments .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment Information', $this->orderLanguage) .  PHP_EOL ;
+            $webhookComments .=  PHP_EOL . $this->paymentHelper->getTranslatedText('instalment_Information', $this->orderLanguage) .  PHP_EOL ;
             $webhookComments .= $this->paymentHelper->getTranslatedText('executed_cycle', $this->orderLanguage) . $this->eventData['instalment']['cycles_executed'] . PHP_EOL;
             $webhookComments .= $this->paymentHelper->getTranslatedText('pending_cycle', $this->orderLanguage) . $this->eventData['instalment']['pending_cycles'] . PHP_EOL;
             $webhookComments .= (!empty($this->eventData['instalment']['next_cycle_date'])) ? $this->paymentHelper->getTranslatedText('next_cycle_date', $this->orderLanguage) . $this->eventData['instalment']['next_cycle_date'] : '';
