@@ -1377,13 +1377,6 @@ class PaymentService
            $paymentResponseData['transaction']['partner_payment_reference'] = $transactionData['partner_payment_reference'];
            $paymentResponseData['transaction']['service_supplier_id']       = $transactionData['service_supplier_id'];
        }
-       if(in_array($transactionData['paymentName'], ['novalnet_instalment_sepa','novalnet_instalment_invoice'])) {
-           $paymentResponseData['instalment']['pending_cycles']         = $transactionData['pending_cycles'];
-           $paymentResponseData['instalment']['next_cycle_date']        = $transactionData['next_cycle_date'];
-           $paymentResponseData['instalment']['cycles_executed']        = $transactionData['cycles_executed'];
-           $paymentResponseData['instalment']['cycle_amount']           = $transactionData['cycle_amount'];
-       }
-
    }
 
      /**
