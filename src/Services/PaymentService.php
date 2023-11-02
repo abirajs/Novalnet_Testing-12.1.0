@@ -1205,7 +1205,7 @@ class PaymentService
 		$paymentResponseData['bookingText'] .= $this->paymentHelper->getTranslatedText('executed_cycle', $transactionData['lang']) . $paymentResponseData['instalment']['cycles_executed'] . PHP_EOL;
 		$paymentResponseData['bookingText'] .= $this->paymentHelper->getTranslatedText('pending_cycle', $transactionData['lang']) . $paymentResponseData['instalment']['pending_cycles'] . PHP_EOL;
 		$paymentResponseData['bookingText'] .= (!empty($paymentResponseData['instalment']['next_cycle_date'])) ? $this->paymentHelper->getTranslatedText('next_cycle_date', $transactionData['lang']) . $paymentResponseData['instalment']['next_cycle_date'] : '';
-		$paymentResponseData['bookingText'] .= $this->paymentHelper->getTranslatedText('instalment_cycle_amount', $transactionData['lang']) . str_replace('.', ',', sprintf('%0.2f', $paymentResponseData['instalment']['cycle_amount'] / 100)) . $paymentResponseData['instalment']['currency'] . PHP_EOL ;
+		$paymentResponseData['bookingText'] .= PHP_EOL . $this->paymentHelper->getTranslatedText('instalment_cycle_amount', $transactionData['lang']) . str_replace('.', ',', sprintf('%0.2f', $paymentResponseData['instalment']['cycle_amount'] / 100)) . ' ' . $paymentResponseData['transaction']['currency'] . PHP_EOL ;
 		}
             } else {
                 $paymentResponseData['transaction']['amount'] = 0;
