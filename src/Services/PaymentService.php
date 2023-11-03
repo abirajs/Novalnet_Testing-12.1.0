@@ -496,7 +496,7 @@ class PaymentService
 		return $this->response->redirectTo($this->sessionStorage->getLocaleSettings()->language . '/confirmation');  
 	}
 		$this->getLogger(__METHOD__)->error('Novalnet::paymentRequestData', $paymentRequestData['paymentRequestData']);
-	if(in_array($paymentRequestData['paymentRequestData']['transaction']['payment_type'], ['GUARANTEED_INVOICE', 'GUARANTEED_SEPA', 'INSTALMENT_INVOICE', 'INSTALMENT_DIRECT_DEBIT_SEPA'])) {
+	if(in_array($paymentRequestData['paymentRequestData']['transaction']['payment_type'], ['GUARANTEED_INVOICE', 'GUARANTEED_DIRECT_DEBIT_SEPA', 'INSTALMENT_INVOICE', 'INSTALMENT_DIRECT_DEBIT_SEPA'])) {
 		if(!isset($paymentRequestData['paymentRequestData']['customer']['shipping']['same_as_billing'])) {
 			$this->getLogger(__METHOD__)->error('Novalnet::test', $paymentRequestData['paymentRequestData']);
 			$content = $this->paymentHelper->getTranslatedText('nn_payment_validation_error');
