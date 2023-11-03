@@ -22,6 +22,7 @@ use Plenty\Modules\Helper\Services\WebstoreHelper;
 use Plenty\Modules\Plugin\DataBase\Contracts\DataBase;
 use Plenty\Modules\Plugin\DataBase\Contracts\Query;
 use Plenty\Modules\Payment\Contracts\PaymentRepositoryContract;
+use Plenty\Modules\Basket\Contracts\BasketRepositoryContract;
 use Plenty\Plugin\Http\Response;
 use Plenty\Plugin\Log\Loggable;
 
@@ -65,6 +66,11 @@ class PaymentService
     private $countryRepository;
 
     /**
+     * @var BasketRepositoryContract
+     */
+    private $basketRepository;
+	
+    /**
      * @var FrontendSessionStorageFactoryContract
      */
     private $sessionStorage;
@@ -104,6 +110,7 @@ class PaymentService
                                 CountryRepositoryContract $countryRepository,
                                 FrontendSessionStorageFactoryContract $sessionStorage,
                                 TransactionService $transactionService,
+				BasketRepositoryContract $basketRepository,
                                 PaymentRepositoryContract $paymentRepository
                                )
     {
@@ -116,6 +123,7 @@ class PaymentService
         $this->sessionStorage       = $sessionStorage;
         $this->transactionService   = $transactionService;
         $this->paymentRepository    = $paymentRepository;
+	$this->basketRepository     = $basketRepository;
     }
 
     /**
