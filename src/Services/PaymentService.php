@@ -513,7 +513,7 @@ class PaymentService
 	}
 		
 	if(in_array($paymentRequestData['paymentRequestData']['transaction']['payment_type'], ['NOVALNET_INSTALMENT_INVOICE', 'NOVALNET_INSTALMENT_SEPA'])) {
-        	if($this->isGuaranteePaymentToBeDisplayed( $this->basketRepository->load() , 'novalnet_instalment_invoice') != 'true' || $this->isGuaranteePaymentToBeDisplayed( $this->basketRepository->load() , 'novalnet_instalment_sepa') != 'true'){
+        	if($this->isInstalmentPaymentToBeDisplayed( $this->basketRepository->load() , 'novalnet_instalment_invoice') != 'true' || $this->isInstalmentPaymentToBeDisplayed( $this->basketRepository->load() , 'novalnet_instalment_sepa') != 'true'){
 			$content = $this->paymentHelper->getTranslatedText('nn_payment_validation_error');
 			$this->pushNotification($content, 'error', 100);	
 			return $this->response->redirectTo($this->sessionStorage->getLocaleSettings()->language . '/confirmation');
