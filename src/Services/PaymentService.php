@@ -307,7 +307,6 @@ class PaymentService
 	// Send due date to the Novalnet server if it configured
         if(in_array($paymentKey, ['NOVALNET_INVOICE', 'NOVALNET_PREPAYMENT', 'NOVALNET_CASHPAYMENT', 'NOVALNET_SEPA'])) {
             $dueDate = $this->settingsService->getPaymentSettingsValue('due_date', $paymentKeyLower);
-		 $this->getLogger(__METHOD__)->error('Novalnet::$dueDate', $dueDate);
             if(is_numeric($dueDate)) {
 		if($paymentKey == 'NOVALNET_SEPA' && is_numeric($dueDate) && $dueDate > 1 && $dueDate < 15) {
                 $paymentRequestData['transaction']['due_date'] = $this->paymentHelper->dateFormatter($dueDate);
@@ -495,19 +494,13 @@ class PaymentService
 		}
 		return $this->response->redirectTo($this->sessionStorage->getLocaleSettings()->language . '/confirmation');  
 	}
-		$this->getLogger(__METHOD__)->error('Novalnet::paymentRequestData', $paymentRequestData['paymentRequestData']);
 	if(in_array($paymentRequestData['paymentRequestData']['transaction']['payment_type'], ['GUARANTEED_INVOICE', 'GUARANTEED_DIRECT_DEBIT_SEPA', 'INSTALMENT_INVOICE', 'INSTALMENT_DIRECT_DEBIT_SEPA'])) {
 		if(!isset($paymentRequestData['paymentRequestData']['customer']['shipping']['same_as_billing'])) {
-			$this->getLogger(__METHOD__)->error('Novalnet::test', $paymentRequestData['paymentRequestData']);
 			$content = $this->paymentHelper->getTranslatedText('nn_payment_validation_error');
 			$this->pushNotification($content, 'error', 100);	
 			return $this->response->redirectTo($this->sessionStorage->getLocaleSettings()->language . '/confirmation');
 		}
 	}
-	    $this->getLogger(__METHOD__)->error('Novalnet::isGuaranteePaymentToBeDisplayed', $this->isGuaranteePaymentToBeDisplayed( $this->basketRepository->load() , 'novalnet_guaranteed_invoice'));
-
-
-
         $privateKey = $this->settingsService->getPaymentSettingsValue('novalnet_private_key');
         $paymentResponseData = $this->paymentHelper->executeCurl($paymentRequestData['paymentRequestData'], $paymentRequestData['paymentUrl'], $privateKey);
         $isPaymentSuccess = isset($paymentResponseData['result']['status']) && $paymentResponseData['result']['status'] == 'SUCCESS';
